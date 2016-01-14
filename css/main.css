@@ -1,0 +1,37 @@
+div#container{
+	border: 1px solid black;
+	width:780px;
+	height:390px;
+}
+div#left,div#right{
+	width: 390px;
+	height: 390px;
+	float: left;
+}
+div.imgCard-2x2{
+	float: left;
+	width: 195px;
+	height: 195px;
+}
+div.imgCover,div.imgCover1sq{
+	z-index: 1;
+	width: 195px;
+	height: 195px;
+	position: absolute;
+	background-image: #051725; 
+  background-image: -webkit-linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6))); 
+  background-image: -o-linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6)); 
+  background-image: -moz-linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6)); 
+  background-image: linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6)); 
+}
+div.imgCover1sq{
+	width: 390px;
+	height: 390px;
+}
+div.imgCard-2x2 img{
+	display: inline-block;
+}
+div.1sq img{
+	display: block;
+}
+
