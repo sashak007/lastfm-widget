@@ -8,27 +8,36 @@ div#left,div#right{
 	height: 390px;
 	float: left;
 }
-div.imgCard-2x2{
+div.sm-sq-imgCard{
 	float: left;
 	width: 195px;
 	height: 195px;
 }
-div.imgCover,div.imgCover1sq{
+div.rect-imgCard{
+	float: left;
+	width: 390px;
+	height: 195px;
+}
+div.sm-sq-imgCover,div.lg-sq-imgCover,div.rect-imgCover{
 	z-index: 1;
 	width: 195px;
 	height: 195px;
 	position: absolute;
 	background-image: #051725; 
-  background-image: -webkit-linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6))); 
-  background-image: -o-linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6)); 
-  background-image: -moz-linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6)); 
-  background-image: linear-gradient(180deg, rgba(5,23,37,0), rgba(5,23,37,.6)); 
+  background-image: -webkit-linear-gradient(180deg, rgba(5,23,37,0), rgba(0,0,0,.8))); 
+  background-image: -o-linear-gradient(180deg, rgba(5,23,37,0), rgba(0,0,0,.8)); 
+  background-image: -moz-linear-gradient(180deg, rgba(5,23,37,0), rgba(0,0,0,.8)); 
+  background-image: linear-gradient(180deg, rgba(5,23,37,0), rgba(0,0,0,.8)); 
 }
-div.imgCover1sq{
+div.lg-sq-imgCover{
 	width: 390px;
 	height: 390px;
 }
-div.imgCard-2x2 img{
+div.rect-imgCover{
+	width: 390px;
+	height: 195px;
+}
+div.sm-sq-imgCard img{
 	display: inline-block;
 }
 div.1sq img{
