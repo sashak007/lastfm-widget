@@ -42,13 +42,14 @@ class WeeklyArtists {
 		for ($x = 0; $x < $listening_data_artist_count; $x++) {
 			$artist_list[$x]= $user_listening_data['weeklyartistchart']['artist'][$x]['name'];
 		
-			$url = 'http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist='.$artist_list[$x].'&format=json&api_key=' . getenv('API_KEY');
+			$fetch_artist_info_url = 'http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist='.urlencode($artist_list[$x]).'&format=json&api_key=' . getenv('API_KEY');
 
-			$artist_info_data[$x] = file_get_contents($url);
+			$artist_info_data[$x] = file_get_contents($fetch_artist_info_url);
+
+			$decoded_artist_info_data[$x] = json_decode($artist_info_data[$x], true);
 		}
 		
-		$decoded_artist_info_data = json_decode($artist_info_data, true);
-
+		
 		var_dump($decoded_artist_info_data);
 
 		// return $decoded_artist_info_data;
@@ -56,6 +57,17 @@ class WeeklyArtists {
 	}
 
 	public function get_artist_image() {
+
+		$complete_artist_info_data = $this->get_artist_info();
+		$artist_count = count($complete_artist_info_data);
+
+		$artist_images = array();
+
+		for ($i = 0; $i < $artist_count; $i++) {
+			$key = $complete_artist_info_data[0]['artist']['name'];
+
+			$artist_images[$key] = $complete_artist_info_data[0]['artist']['image'][4]['#text'];
+		}
 
 	}
 	
