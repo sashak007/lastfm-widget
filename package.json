@@ -1,6 +1,6 @@
 {
   "name": "lastfm-plays",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "A list of the latest listening history by artist for the last seven days",
   "author": "Natasha Dykes",
   "repository": "https://github.com/sashak007/lastfm-widget",
@@ -12,6 +12,7 @@
     "shelljs": "^0.2.6"
   },
   "dependencies": {
-    "angular": "^1.4.9"
+    "angular": "^1.4.9",
+    "angular-resource": "^1.4.9"
   }
 }
