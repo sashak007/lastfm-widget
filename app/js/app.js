@@ -3,7 +3,7 @@
 /* App Module */
 
 var musicWidgetApp = angular.module('musicWidgetApp', [
-	'ngResource',
+  'ngResource',
   'musicWidgetControllers',
   'artistListService'
 ]);
