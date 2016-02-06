@@ -1,9 +1,7 @@
 <?php
 // TODO : 
-  // * cache artist data
+  // * cron artist data call to lastfm so db stays up to date.
   // * create '../img/music-banner.jpg' for cases where there's no artist image provided.
-
-//include('../htconfig/dbconf.php'); 
 
 require_once(__DIR__ . '/../htconf/dbconf.php');
 
@@ -84,8 +82,6 @@ class WeeklyArtists {
   }
 }
 
-// 
-// Need to g
 
 $weekly_artists_stats = new WeeklyArtists();
 $result = $weekly_artists_stats->get_artist_image();
@@ -104,10 +100,6 @@ $delete_sql = 'DELETE FROM '.$dbConnection['database'].'.'.$dbConnection['table'
 $count_rows = 'SELECT COUNT(*) FROM '.$dbConnection['database'].'.'.$dbConnection['table'];
 
 $last_week = date('Y-m-d H:i:s',(time() - (7 * 24 * 60 * 60)));
-
-
-// DELETE FROM lastfm.userInfo where modified_at > CAST($lastweek as datetime);
-
 
 $index  = 0;
 
@@ -158,12 +150,6 @@ if ($dbConnected) {
 
 
 }
-
-
-
-// header("Content-Type: application/json");
-// echo json_encode($result);
-
 
 
 ?>

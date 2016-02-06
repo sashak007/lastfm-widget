@@ -1,9 +1,11 @@
 'use strict';
 
+//TODO - remove response variable and console logs.
+
 var musicWidgetControllers = angular.module('musicWidgetControllers', []);
 
-  musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection', function($scope, ArtistCollection) {
-    var gridItemsLength,
+  musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Collection', function($scope, ArtistCollection, Collection) {
+    var gridItemsLength = 5,
         offset          = 0,
         gridStylesLeft  = [{'val':1, 'path':'partials/leftGrid/1-grid.html'},
                           {'val':2, 'path':'partials/leftGrid/1x1-grid.html'},
@@ -15,90 +17,72 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
                           {'val':3, 'path':'partials/rightGrid/1x2-grid.html'},
                           {'val':3, 'path':'partials/rightGrid/2x1-grid.html'},
                           {'val':4, 'path':'partials/rightGrid/2x2-grid.html'}],
-        rand            = Math.floor(Math.random() * 5),
-        rand1           = Math.floor(Math.random() * 5),
+        leftIndex       = 0,
+        rightIndex      = 4,
         response;
 
-        while(rand === rand1) {
-          rand = Math.floor(Math.random() * 5);
-        }
-
-    $scope.gridLeft  = gridStylesLeft[1]['path'];
-    $scope.gridRight = gridStylesRight[4]['path'];
-
-
-    gridItemsLength = gridStylesLeft[1]['val'] + gridStylesRight[4]['val'];
-
+    console.log(Collection);
     console.log('displayed: ' + gridItemsLength);
-    // function getArtistInfo(){
-      response = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, function(artistInfo) {
-        console.log('artistInfo: ' + JSON.stringify(artistInfo));
-        var artistArrayLeft  = artistInfo.slice(0,gridStylesLeft[1]['val']),
-            artistArrayRight = artistInfo.slice(gridStylesLeft[1]['val']);
 
-        $scope.artistsLeft  = artistArrayLeft;
-        $scope.artistsRight = artistArrayRight;
+    $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
+    $scope.gridRight = gridStylesRight[rightIndex]['path'];
+    
+    function setArtists(artistInfo,init){
+      var artistArrayLeft  = artistInfo.slice(0,gridStylesLeft[leftIndex]['val']),
+          artistArrayRight = artistInfo.slice(gridStylesLeft[leftIndex]['val']);
 
-        offset += gridItemsLength;
+      $scope.artistsLeft  = artistArrayLeft;
+      $scope.artistsRight = artistArrayRight;
 
-      });
-      console.log('response: ' + JSON.stringify(response)); 
-    // }
+      if (typeof init === 'number') {
+        offset += init;
+      }
+        
+    }
+
+    setArtists(Collection,gridItemsLength)
+
+
+    function getArtistInfo(){
+      response = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, setArtists);
+      console.log('response: ' + JSON.stringify(response) + ' offset: '+offset+' displayed: '+gridItemsLength); 
+    }
 
     $scope.next = function() {
-      rand  = Math.floor(Math.random() * 5),
-      rand1 = Math.floor(Math.random() * 5);
+      console.log('here')
+      leftIndex  = Math.floor(Math.random() * 5),
+      rightIndex = Math.floor(Math.random() * 5);
 
-      while(rand === rand1) {
-        rand = Math.floor(Math.random() * 5);
+      while(leftIndex === rightIndex) {
+        leftIndex = Math.floor(Math.random() * 5);
       }
 
-      $scope.gridLeft  = gridStylesLeft[1]['path'];
-      $scope.gridRight = gridStylesRight[4]['path'];
+      $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
+      $scope.gridRight = gridStylesRight[rightIndex]['path'];
 
-      gridItemsLength = gridStylesLeft[1]['val'] + gridStylesRight[4]['val'];
+      gridItemsLength = gridStylesLeft[leftIndex]['val'] + gridStylesRight[rightIndex]['val'];
 
-      var nextResponse = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, function(artistInfo) {
-        console.log('artistInfo: ' + JSON.stringify(artistInfo));
-        var artistArrayLeft  = artistInfo.slice(0,gridStylesLeft[1]['val']),
-            artistArrayRight = artistInfo.slice(gridStylesLeft[1]['val']);
+      getArtistInfo();
 
-        $scope.artistsLeft  = artistArrayLeft;
-        $scope.artistsRight = artistArrayRight;
-
-        offset += gridItemsLength;
-
-      });
-
-      console.log("next response : "+JSON.stringify(nextResponse));
+      offset += gridItemsLength;
     };
 
     $scope.prev = function() {
-      rand    = Math.floor(Math.random() * 5),
-      rand1   = Math.floor(Math.random() * 5);
+      leftIndex  = Math.floor(Math.random() * 5),
+      rightIndex = Math.floor(Math.random() * 5);
 
-      while(rand === rand1) {
-        rand = Math.floor(Math.random() * 5);
+      while(leftIndex === rightIndex) {
+        leftIndex = Math.floor(Math.random() * 5);
       }
 
-      gridItemsLength = gridStylesLeft[1]['val'] + gridStylesRight[4]['val'];
+      gridItemsLength = gridStylesLeft[leftIndex]['val'] + gridStylesRight[rightIndex]['val'];
 
       offset -= gridItemsLength;
 
-      $scope.gridLeft  = gridStylesLeft[1]['path'];
-      $scope.gridRight = gridStylesRight[4]['path'];
+      $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
+      $scope.gridRight = gridStylesRight[rightIndex]['path'];
 
-      var prevResponse = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, function(artistInfo) {
-        console.log('artistInfo: ' + JSON.stringify(artistInfo));
-        var artistArrayLeft  = artistInfo.slice(0,gridStylesLeft[1]['val']),
-            artistArrayRight = artistInfo.slice(gridStylesLeft[1]['val']);
-
-        $scope.artistsLeft  = artistArrayLeft;
-        $scope.artistsRight = artistArrayRight;
-
-      });
-
-      console.log("next response : "+JSON.stringify(prevResponse));
+      getArtistInfo();
       
     };  
   }]);
