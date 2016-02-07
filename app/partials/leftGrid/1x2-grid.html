@@ -3,8 +3,10 @@
   <div class="rect-imgCard">
     <div class="img-wrapper">
       <div class="rect-imgCover">
-        <p class="artist">{{artistsLeft[0].artist}}</p>
-        <p class="plays">{{artistsLeft[0].playcount}} Plays</p>
+        <div class="rect-text">
+          <p class="artist">{{artistsLeft[0].artist}}</p>
+          <p class="plays">{{artistsLeft[0].playcount}} Plays</p>
+        </div>
       </div>
       <img ng-src="{{artistsLeft[0].image}}" />
     </div>

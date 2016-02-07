@@ -80,7 +80,7 @@ p{
   padding: 0px 7px;
   margin: 0px;
 }
-div.sm-sq-text{
+div.sm-sq-text, div.rect-text{
   margin-top: 150px; 
 }
 div.lg-sq-text{

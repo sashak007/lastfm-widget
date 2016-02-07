@@ -1,7 +1,6 @@
 <?php
 // TODO : 
   // * cron artist data call to lastfm so db stays up to date.
-  // * create '../img/music-banner.jpg' for cases where there's no artist image provided.
 
 require_once(__DIR__ . '/../htconf/dbconf.php');
 

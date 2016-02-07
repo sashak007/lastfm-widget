@@ -21,6 +21,8 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
         leftIndex       = 0,
         rightIndex      = 4,
         numberLoaded    = 0,
+        nextBtn         = document.getElementById('nextBtn'),
+        prevBtn         = document.getElementById('nextBtn'),
         artistsRemaining,
         response;
 
@@ -39,7 +41,6 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
       
       artistsRemaining  = parseInt(artistInfo[1]['COUNT(*)'],10);
 
-      // console.log('init artistsRemaining '+artistsRemaining)
       $scope.artistsLeft  = artistArrayLeft;
       $scope.artistsRight = artistArrayRight;
 
@@ -58,6 +59,9 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
     }
 
     $scope.next = function() {
+      if (prevBtn.hasAttribute('disabled')){
+        prevBtn.removeAttribute('disabled');
+      }
       
       console.log('ON NEXT - offset type: '+ typeof offset +' offset value '+offset);
       
@@ -106,14 +110,18 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
 
       offset += gridItemsLength;
 
-      if (artistsRemaining === 0) {
+      if (artistsRemaining-4 <= 0) {
         $('div#fin').show();
+        nextBtn.setAttribute('disabled', 'disabled');
       } else{
         $('div#fin').hide();
       }
     };
 
     $scope.prev = function() {
+      if (nextBtn.hasAttribute('disabled')){
+        nextBtn.removeAttribute('disabled');
+      }
       leftIndex  = Math.floor(Math.random() * 5);
       rightIndex = Math.floor(Math.random() * 5);
 
@@ -124,6 +132,17 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
       gridItemsLength = gridStylesLeft[leftIndex]['val'] + gridStylesRight[rightIndex]['val'];
 
       offset -= gridItemsLength;
+
+      console.log('artistsRemaining : '+artistsRemaining+' vs. gridItemsLength: '+ gridItemsLength+'. offset : '+offset);
+     
+      if (offset === 0) {
+        prevBtn = document.getElementById('prevBtn');
+        prevBtn.setAttribute("disabled", "disabled");
+
+      } else {
+        $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
+        $scope.gridRight = gridStylesRight[rightIndex]['path'];
+      }
 
       $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
       $scope.gridRight = gridStylesRight[rightIndex]['path'];
