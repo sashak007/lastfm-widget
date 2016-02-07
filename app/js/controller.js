@@ -26,11 +26,7 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
         artistsRemaining,
         response;
 
-    // console.log(Collection);
-    // console.log('displayed: ' + gridItemsLength);
-
     $scope.nextEmpty = false;
-
     $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
     $scope.gridRight = gridStylesRight[rightIndex]['path'];
     
@@ -53,6 +49,7 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
 
     setArtists(Collection,gridItemsLength);
 
+
     function getArtistInfo(){
       response = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, setArtists);
       console.log('response: ' + JSON.stringify(response) + ' offset: '+offset+' displayed: '+gridItemsLength); 
@@ -62,8 +59,6 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
       if (prevBtn.hasAttribute('disabled')){
         prevBtn.removeAttribute('disabled');
       }
-      
-      console.log('ON NEXT - offset type: '+ typeof offset +' offset value '+offset);
       
       leftIndex  = Math.floor(Math.random() * 5);
       rightIndex = Math.floor(Math.random() * 5);
@@ -110,18 +105,17 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
 
       offset += gridItemsLength;
 
-      if (artistsRemaining-4 <= 0) {
+      if (artistsRemaining - 4 <= 0) {
         $('div#fin').show();
         nextBtn.setAttribute('disabled', 'disabled');
-      } else{
-        $('div#fin').hide();
-      }
+      } 
     };
 
     $scope.prev = function() {
       if (nextBtn.hasAttribute('disabled')){
         nextBtn.removeAttribute('disabled');
       }
+
       leftIndex  = Math.floor(Math.random() * 5);
       rightIndex = Math.floor(Math.random() * 5);
 
@@ -138,10 +132,6 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
       if (offset === 0) {
         prevBtn = document.getElementById('prevBtn');
         prevBtn.setAttribute("disabled", "disabled");
-
-      } else {
-        $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
-        $scope.gridRight = gridStylesRight[rightIndex]['path'];
       }
 
       $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];

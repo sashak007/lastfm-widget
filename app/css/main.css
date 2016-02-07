@@ -1,3 +1,6 @@
+/******************
+ Container styling
+******************/
 div#container{
   border: 1px solid black;
   width:780px;
@@ -9,6 +12,21 @@ div#left,div#right{
   height: 390px;
   float: left;
 }
+p{
+  font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #FFF;
+  padding: 0px 7px;
+  margin: 0px;
+}
+
+/******************
+    Grid styling
+*1sp 390x390
+*1x1 390x195 (2)
+*1x2 390x195 (1) + 195x195 (2)
+*2x1 195x195 (2) + 390x195 (1)
+*2x2 195x195 (4)
+******************/
 div.2x2grid,div.1x2grid,div.2x1grid,div.1x1grid,div.1sq{
   overflow: hidden;
 }
@@ -47,11 +65,45 @@ div.rect-imgCover{
   width: 390px;
   height: 195px;
 }
+
+div.sm-sq-text, div.rect-text{
+  margin-top: 150px; 
+}
+div.lg-sq-text{
+  margin-top: 345px; 
+}
+/******************
+  Image Styling
+******************/
 div.sm-sq-imgCard img{
   display: inline-block;  
 }
 div.1sq img, div.rect-imgCard img{
   display: block;
+}
+div.img-wrapper{
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+  div.img-wrapper img{
+    width: 100%;
+  }
+.maxWidth{
+  width: 100%;
+}
+.maxHeight{
+  height: 100%;
+}
+/******************
+  Sidebar styles
+  * navigation
+  * fin/blurb
+******************/
+div#sidebar{
+  width:350px;
+  margin-left:20px; 
+  float: left;
 }
 div#next{
   width: 50px;
@@ -62,34 +114,6 @@ div#prev{
   width: 50px;
   height: 50px;
   background-image: url('../../img/prevbtn.png')
-}
-div.img-wrapper{
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-  div.img-wrapper img{
-    width: 100%;
-  }
-  .img-height{
-    height: 100%;
-  }
-p{
-  font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #FFF;
-  padding: 0px 7px;
-  margin: 0px;
-}
-div.sm-sq-text, div.rect-text{
-  margin-top: 150px; 
-}
-div.lg-sq-text{
-  margin-top: 345px; 
-}
-div#sidebar{
-  width:350px;
-  margin-left:20px; 
-  float: left;
 }
 div#fin{
   display: none;
@@ -110,7 +134,3 @@ div#fin{
     width: 30px;
     height: 30px;
   }
-
-div.clear{
-  clear:both;
-}
