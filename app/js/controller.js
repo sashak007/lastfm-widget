@@ -16,32 +16,41 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
                           {'val':2, 'path':'partials/rightGrid/1x1-grid.html'},
                           {'val':3, 'path':'partials/rightGrid/1x2-grid.html'},
                           {'val':3, 'path':'partials/rightGrid/2x1-grid.html'},
-                          {'val':4, 'path':'partials/rightGrid/2x2-grid.html'}],
+                          {'val':4, 'path':'partials/rightGrid/2x2-grid.html'},
+                          {'val':null, 'path':'partials/end.html'}],
         leftIndex       = 0,
         rightIndex      = 4,
+        numberLoaded    = 0,
+        artistsRemaining,
         response;
 
-    console.log(Collection);
-    console.log('displayed: ' + gridItemsLength);
+    // console.log(Collection);
+    // console.log('displayed: ' + gridItemsLength);
+
+    $scope.nextEmpty = false;
 
     $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
     $scope.gridRight = gridStylesRight[rightIndex]['path'];
     
     function setArtists(artistInfo,init){
-      var artistArrayLeft  = artistInfo.slice(0,gridStylesLeft[leftIndex]['val']),
-          artistArrayRight = artistInfo.slice(gridStylesLeft[leftIndex]['val']);
+      var artists           = Object.keys(artistInfo[0]).map(function(objItem) { return artistInfo[0][objItem] }),
+          artistArrayLeft   = artists.slice(0,gridStylesLeft[leftIndex]['val']),
+          artistArrayRight  = artists.slice(gridStylesLeft[leftIndex]['val']);
+      
+      artistsRemaining  = parseInt(artistInfo[1]['COUNT(*)'],10);
 
+      // console.log('init artistsRemaining '+artistsRemaining)
       $scope.artistsLeft  = artistArrayLeft;
       $scope.artistsRight = artistArrayRight;
 
       if (typeof init === 'number') {
         offset += init;
-      }
-        
+      } 
+      
+      artistsRemaining -= offset;
     }
 
-    setArtists(Collection,gridItemsLength)
-
+    setArtists(Collection,gridItemsLength);
 
     function getArtistInfo(){
       response = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, setArtists);
@@ -49,26 +58,63 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
     }
 
     $scope.next = function() {
-      console.log('here')
-      leftIndex  = Math.floor(Math.random() * 5),
+      
+      console.log('ON NEXT - offset type: '+ typeof offset +' offset value '+offset);
+      
+      leftIndex  = Math.floor(Math.random() * 5);
       rightIndex = Math.floor(Math.random() * 5);
 
       while(leftIndex === rightIndex) {
         leftIndex = Math.floor(Math.random() * 5);
       }
 
-      $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
-      $scope.gridRight = gridStylesRight[rightIndex]['path'];
-
       gridItemsLength = gridStylesLeft[leftIndex]['val'] + gridStylesRight[rightIndex]['val'];
 
+      console.log('artistsRemaining : '+artistsRemaining+' vs. gridItemsLength: '+ gridItemsLength+'. offset : '+offset);
+     
+      if (artistsRemaining < gridItemsLength) {
+        if (artistsRemaining === 1) {
+          $scope.gridLeft  = gridStylesLeft[0]['path'];
+          $scope.gridRight = gridStylesRight[5]['path'];
+
+          gridItemsLength = 1;
+        
+        } else if(artistsRemaining === 2) {
+          $scope.gridLeft  = gridStylesLeft[0]['path'];
+          $scope.gridRight = gridStylesRight[0]['path'];
+
+          gridItemsLength = 2;
+       
+        } else if(artistsRemaining === 3) {
+          $scope.gridLeft  = gridStylesLeft[1]['path'];
+          $scope.gridRight = gridStylesRight[0]['path'];
+
+          gridItemsLength = 3;
+        
+        } else {
+          $scope.gridLeft  = gridStylesLeft[0]['path'];
+          $scope.gridRight = gridStylesRight[2]['path'];
+
+          gridItemsLength = 4;
+        }
+      } else {
+        $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
+        $scope.gridRight = gridStylesRight[rightIndex]['path'];
+      }
+      
       getArtistInfo();
 
       offset += gridItemsLength;
+
+      if (artistsRemaining === 0) {
+        $('div#fin').show();
+      } else{
+        $('div#fin').hide();
+      }
     };
 
     $scope.prev = function() {
-      leftIndex  = Math.floor(Math.random() * 5),
+      leftIndex  = Math.floor(Math.random() * 5);
       rightIndex = Math.floor(Math.random() * 5);
 
       while(leftIndex === rightIndex) {
@@ -82,7 +128,6 @@ var musicWidgetControllers = angular.module('musicWidgetControllers', []);
       $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
       $scope.gridRight = gridStylesRight[rightIndex]['path'];
 
-      getArtistInfo();
-      
+      getArtistInfo();   
     };  
   }]);

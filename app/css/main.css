@@ -53,10 +53,6 @@ div.sm-sq-imgCard img{
 div.1sq img, div.rect-imgCard img{
   display: block;
 }
-div#nav{
-  width:50px;
-  float: left;
-}
 div#next{
   width: 50px;
   height: 50px;
@@ -67,26 +63,54 @@ div#prev{
   height: 50px;
   background-image: url('../../img/prevbtn.png')
 }
-/*div.sm-sq-text, div.rect-text{
-  bottom: 5%;
-}
-  div.sm-sq-text p, div.rect-text{
-    margin: 0;
-    padding:0px 5px;
-
-  }*/
 div.img-wrapper{
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
-  div.img-wrapper img {
+  div.img-wrapper img{
     width: 100%;
   }
-  .img-height {
+  .img-height{
     height: 100%;
   }
 p{
   font-family: 'Open Sans', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #FFF;
+  padding: 0px 7px;
+  margin: 0px;
+}
+div.sm-sq-text{
+  margin-top: 150px; 
+}
+div.lg-sq-text{
+  margin-top: 345px; 
+}
+div#sidebar{
+  width:350px;
+  margin-left:20px; 
+  float: left;
+}
+div#fin{
+  display: none;
+  float: left;
+  background: none;
+  width: 300px;
+}
+  div#fin p{
+    padding: 0px 0px 20px 0px;
+    color: #333;
+  }
+  div#fin h1{
+    font-family: Raleway, 'san-serif';
+    font-weight: 800;
+    font-size: 1.5em;
+  }
+  div#social img{
+    width: 30px;
+    height: 30px;
+  }
+
+div.clear{
+  clear:both;
 }

@@ -23,19 +23,3 @@ musicWidgetApp.config(['$routeProvider','$locationProvider', function($routeProv
 
    $locationProvider.html5Mode(true);
 }]);
-
-// var numberLoaded = 0;
-
-// Collection.forEach(function(item) {
-//   var img = new Image();
-
-//   img.onload = function() {
-//     numberLoaded++;
-
-//     if (numberLoaded === 5) {
-//       $scope.displayTemplate = true;
-//     }
-//   };
-
-//   img.src = item.imageUrl;
-// })

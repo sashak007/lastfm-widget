@@ -2,7 +2,18 @@
   <div id="left" ng-include="gridLeft"></div>
   <div id="right" ng-include="gridRight"></div>
 </div>
-<div id="nav">
-  <button ng-click="next()">NEXT</div>
-  <button ng-click="prev()">PREVIOUS</div>
+<div id="sidebar">
+  <button ng-click="next()" ng-disabled="{{nextEmpty}}">NEXT</button>
+  <button ng-click="prev()">PREVIOUS</button>
+	<div id="fin">
+		<h1>That's all I've listened to this week!</h1>
+		<p>Have some music suggestions you think I'd like? I'd love to hear em! 
+		<div id="social">
+		  <p>Find me on the web:</p>
+
+		  <a href="https://twitter.com/sashak007"><img src="../img/social/twitter-icon.png"></a>
+		  <a href="https://github.com/sashak007"><img src="../img/social/github-icon.png"></a>
+		  <a href="https://medium.com/@sashak007"><img src="../img/social/medium-icon.png"></a>
+		</div>
+	</div>
 </div>
