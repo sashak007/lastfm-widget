@@ -15,10 +15,8 @@ class WeeklyArtists {
 
   private function getTimes() {
     $times = array('last_week'=>$this->last_week,
-                    'now'=>$this->now
-                  );
+                    'now'=>$this->now);
     return $times;
-
   }
 
   public function get_weekly_stats() {
@@ -69,7 +67,7 @@ class WeeklyArtists {
     for ($i = 0; $i < $artist_count; $i++) {
       $artist_images_arr = $artist_data[$i]['artist']['image'];
       foreach ($artist_images_arr as &$img) {
-        if ($img['size'] === 'mega' && $img['#text'] !== '') {
+        if ($img['size'] === 'large' && $img['#text'] !== '') {
           $user_data[$i]['image'] = $img['#text'];
         } elseif($img['#text'] === '') {
           $user_data[$i]['image'] = '../img/music-banner.jpg';

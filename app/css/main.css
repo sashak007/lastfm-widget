@@ -86,9 +86,9 @@ div.img-wrapper{
   width: 100%;
   overflow: hidden;
 }
-  div.img-wrapper img{
+  /*div.img-wrapper img{
     width: 100%;
-  }
+  }*/
 .maxWidth{
   width: 100%;
 }
