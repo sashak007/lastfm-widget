@@ -1,6 +1,6 @@
 'use strict';
 
-//TODO - remove response variable and console logs.
+//TODO - remove console logs.
 
 var musicWidgetControllers = angular.module('musicWidgetControllers', []);
 
@@ -16,15 +16,15 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
                         {'val':2, 'path':'partials/rightGrid/1x1-grid.html'},
                         {'val':3, 'path':'partials/rightGrid/1x2-grid.html'},
                         {'val':3, 'path':'partials/rightGrid/2x1-grid.html'},
-                        {'val':4, 'path':'partials/rightGrid/2x2-grid.html'},
-                        {'val':null, 'path':'partials/end.html'}],
+                        {'val':4, 'path':'partials/rightGrid/2x2-grid.html'}],
       leftIndex       = 0,
       rightIndex      = 4,
       numberLoaded    = 0,
       nextBtn         = document.getElementById('nextBtn'),
-      prevBtn         = document.getElementById('nextBtn'),
+      prevBtn         = document.getElementById('prevBtn'),
       artistsRemaining,
-      response;
+      prevArtists,
+      artistsCount;
 
   $scope.nextEmpty = false;
   $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
@@ -37,24 +37,27 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
         artistArrayLeft   = artists.slice(0,gridStylesLeft[leftIndex]['val']),
         artistArrayRight  = artists.slice(gridStylesLeft[leftIndex]['val']);
     
-    artistsRemaining  = parseInt(artistInfo[1]['COUNT(*)'],10);
+    artistsCount     = parseInt(artistInfo[1]['COUNT(*)'],10);
+    artistsRemaining = artistsCount;
+    prevArtists      = artistsCount;
 
     $scope.artistsLeft  = artistArrayLeft;
     $scope.artistsRight = artistArrayRight;
 
     if (typeof init === 'number') {
       offset += init;
-    } 
-    
-    artistsRemaining -= offset;
+      prevBtn.setAttribute("disabled", "disabled");
+    }
+
   }
 
   function getArtistInfo(){
     response = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, setArtists);
-    console.log('response: ' + JSON.stringify(response) + ' offset: '+offset+' displayed: '+gridItemsLength); 
   }
 
   $scope.next = function() {
+    artistsRemaining -= offset;
+
     if (prevBtn.hasAttribute('disabled')){
       prevBtn.removeAttribute('disabled');
     }
@@ -67,17 +70,9 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
     }
 
     gridItemsLength = gridStylesLeft[leftIndex]['val'] + gridStylesRight[rightIndex]['val'];
-
-    console.log('artistsRemaining : '+artistsRemaining+' vs. gridItemsLength: '+ gridItemsLength+'. offset : '+offset);
    
     if (artistsRemaining < gridItemsLength) {
-      if (artistsRemaining === 1) {
-        $scope.gridLeft  = gridStylesLeft[0]['path'];
-        $scope.gridRight = gridStylesRight[5]['path'];
-
-        gridItemsLength = 1;
-      
-      } else if(artistsRemaining === 2) {
+      if (artistsRemaining === 1 || artistsRemaining === 2) {
         $scope.gridLeft  = gridStylesLeft[0]['path'];
         $scope.gridRight = gridStylesRight[0]['path'];
 
@@ -111,9 +106,10 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
   };
 
   $scope.prev = function() {
-    if (nextBtn.hasAttribute('disabled')){
-      nextBtn.removeAttribute('disabled');
-    }
+    console.log('in prev - prevArtists '+ prevArtists);
+    console.log('in prev - artistsRemaining '+ artistsRemaining);
+    console.log('in prev - offset '+ offset);
+    console.log('in prev - gridItemsLength '+ gridItemsLength);
 
     leftIndex  = Math.floor(Math.random() * 5);
     rightIndex = Math.floor(Math.random() * 5);
@@ -125,19 +121,51 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
     gridItemsLength = gridStylesLeft[leftIndex]['val'] + gridStylesRight[rightIndex]['val'];
 
     offset -= gridItemsLength;
+    // prevArtists -= offset;
 
-    console.log('artistsRemaining : '+artistsRemaining+' vs. gridItemsLength: '+ gridItemsLength+'. offset : '+offset);
-   
-    if (offset === 0) {
-      prevBtn = document.getElementById('prevBtn');
+   //  console.log('artistsRemaining : '+artistsRemaining+' vs. gridItemsLength: '+ gridItemsLength+'. offset : '+offset);
+   // console.log('offset after decrement :'+ offset);
+    
+    // if (offset + gridItemsLength >= artistsRemaining) {
+    //   offset = prevArtists - gridItemsLength;
+    // }
+    
+    if (nextBtn.hasAttribute('disabled')){
+      nextBtn.removeAttribute('disabled');
+    }
+
+    if (offset <= 4) {
+      if (offset === 1 || offset === 2) {
+        $scope.gridLeft  = gridStylesLeft[0]['path'];
+        $scope.gridRight = gridStylesRight[0]['path'];
+
+        gridItemsLength = 2;
+      
+      } else if(offset === 3) {
+        $scope.gridLeft  = gridStylesLeft[1]['path'];
+        $scope.gridRight = gridStylesRight[0]['path'];
+
+        gridItemsLength = 3;
+      
+      } else {
+        $scope.gridLeft  = gridStylesLeft[0]['path'];
+        $scope.gridRight = gridStylesRight[2]['path'];
+
+        gridItemsLength = 4;
+      }
+    } else {
+      $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
+      $scope.gridRight = gridStylesRight[rightIndex]['path'];
+    }
+
+    if (offset === 0 || offset - gridItemsLength === 0) {
       prevBtn.setAttribute("disabled", "disabled");
     }
 
-    $scope.gridLeft  = gridStylesLeft[leftIndex]['path'];
-    $scope.gridRight = gridStylesRight[rightIndex]['path'];
+    getArtistInfo();
+  
+  }; 
 
-    getArtistInfo();   
-  };  
 }]);
 
 musicWidgetControllers.directive('elemReady', function($parse) {
@@ -145,9 +173,8 @@ musicWidgetControllers.directive('elemReady', function($parse) {
     restrict: 'A',
     link: function( $scope, elem, attrs ) {    
       $(elem).load(function(){
-        var width = $(elem).innerWidth();
-        var height = $(elem).innerHeight();
-        console.log('width: ' + width + ', '+ typeof width + ' height: ' + height + ', ' + typeof height + '.');
+        var width = $(elem).innerWidth(),
+            height = $(elem).innerHeight();
         if (width < height) {
           $(elem).addClass('maxWidth');
 
