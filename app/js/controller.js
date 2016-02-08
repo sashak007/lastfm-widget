@@ -48,11 +48,11 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
       offset += init;
       prevBtn.setAttribute("disabled", "disabled");
     }
-
+console.log(artistInfo);
   }
 
   function getArtistInfo(){
-    response = ArtistCollection.query({displayed:gridItemsLength, offset:offset}, setArtists);
+    ArtistCollection.query({displayed:gridItemsLength, offset:offset}, setArtists);
   }
 
   $scope.next = function() {
@@ -106,11 +106,6 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
   };
 
   $scope.prev = function() {
-    console.log('in prev - prevArtists '+ prevArtists);
-    console.log('in prev - artistsRemaining '+ artistsRemaining);
-    console.log('in prev - offset '+ offset);
-    console.log('in prev - gridItemsLength '+ gridItemsLength);
-
     leftIndex  = Math.floor(Math.random() * 5);
     rightIndex = Math.floor(Math.random() * 5);
 
@@ -119,16 +114,6 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
     }
 
     gridItemsLength = gridStylesLeft[leftIndex]['val'] + gridStylesRight[rightIndex]['val'];
-
-    offset -= gridItemsLength;
-    // prevArtists -= offset;
-
-   //  console.log('artistsRemaining : '+artistsRemaining+' vs. gridItemsLength: '+ gridItemsLength+'. offset : '+offset);
-   // console.log('offset after decrement :'+ offset);
-    
-    // if (offset + gridItemsLength >= artistsRemaining) {
-    //   offset = prevArtists - gridItemsLength;
-    // }
     
     if (nextBtn.hasAttribute('disabled')){
       nextBtn.removeAttribute('disabled');
@@ -161,6 +146,8 @@ musicWidgetControllers.controller('ArtistList',['$scope', 'ArtistCollection','Co
     if (offset === 0 || offset - gridItemsLength === 0) {
       prevBtn.setAttribute("disabled", "disabled");
     }
+
+    offset -= gridItemsLength;
 
     getArtistInfo();
   

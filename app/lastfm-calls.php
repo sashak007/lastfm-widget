@@ -57,7 +57,7 @@ class WeeklyArtists {
 
   }
 
-  public function get_artist_image() {
+  public function get_artist_image_and_url() {
 
     $complete_artist_info_data = $this->get_artist_info_for_user();
     $artist_data = $complete_artist_info_data[0];
@@ -65,7 +65,9 @@ class WeeklyArtists {
     $artist_count = count($artist_data);
 
     for ($i = 0; $i < $artist_count; $i++) {
+      $user_data[$i]['url'] = $artist_data[$i]['artist']['url'];
       $artist_images_arr = $artist_data[$i]['artist']['image'];
+
       foreach ($artist_images_arr as &$img) {
         if ($img['size'] === 'large' && $img['#text'] !== '') {
           $user_data[$i]['image'] = $img['#text'];
@@ -81,12 +83,14 @@ class WeeklyArtists {
 
 
 $weekly_artists_stats = new WeeklyArtists();
-$result = $weekly_artists_stats->get_artist_image();
+$result = $weekly_artists_stats->get_artist_image_and_url();
+
+// print_r($result);
 
 $dbConnected = mysqli_connect($dbConnection['hostname'],$dbConnection['username'],$dbConnection['password']);
 
 $insert_sql    = 'INSERT INTO '.$dbConnection['database'].'.'.$dbConnection['table'];
-  $insert_sql .= '(artist,playcount,image)';
+  $insert_sql .= ' (artist,playcount,image,url)';
 
 $select_sql = 'SELECT * FROM '.$dbConnection['database'].'.'.$dbConnection['table'];
 
@@ -123,8 +127,8 @@ if ($dbConnected) {
 
       $insert_sql_val = $insert_sql .' VALUES ("'.$result[$index]['artist'].'","'
       .$result[$index]['playcount'].'","'
-      .$result[$index]['image'].'")';
-
+      .$result[$index]['image'].'","'
+      .$result[$index]['url'].'")';
 
       if (mysqli_query($dbConnected, $insert_sql_val)){
         echo $result[$index]['artist'] . " SUCCESS insert<br />";

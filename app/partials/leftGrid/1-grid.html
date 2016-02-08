@@ -4,8 +4,10 @@
     <div class="img-wrapper">
       <div class="lg-sq-imgCover">
       	<div class="lg-sq-text">
-	        <p class="artist">{{artistsLeft[0].artist}}</p>
-	        <p class="plays">{{artistsLeft[0].playcount}} Plays</p>
+          <a ng-href="{{artistsLeft[0].url}}">
+  	        <p class="artist">{{artistsLeft[0].artist}}</p>
+  	        <p class="plays">{{artistsLeft[0].playcount}} Plays</p>
+          </a>
 	      </div>
       </div>
       <img elem-ready ng-src="{{artistsLeft[0].image}}" />

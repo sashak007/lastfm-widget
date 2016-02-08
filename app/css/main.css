@@ -18,6 +18,9 @@ p{
   padding: 0px 7px;
   margin: 0px;
 }
+div.clear{
+  clear: both;
+}
 
 /******************
     Grid styling
@@ -65,12 +68,23 @@ div.rect-imgCover{
   width: 390px;
   height: 195px;
 }
-
-div.sm-sq-text, div.rect-text{
+div.sm-sq-text, 
+div.rect-text{
   margin-top: 150px; 
 }
-div.lg-sq-text{
-  margin-top: 345px; 
+  div.lg-sq-text{
+    margin-top: 345px; 
+  }
+div.lg-sq-text a,
+div.sm-sq-text a, 
+div.rect-text a {
+  text-decoration: none;
+}
+div.lg-sq-text a p:hover,
+div.sm-sq-text a p:hover, 
+div.rect-text a p:hover {
+  color: #dfdfdf;
+  cursor: pointer;
 }
 /******************
   Image Styling
@@ -134,3 +148,9 @@ div#fin{
     width: 30px;
     height: 30px;
   }
+div#credit{
+  margin-top: 20px;
+}
+img#lastfm-log{
+  display: block;
+}

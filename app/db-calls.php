@@ -6,7 +6,7 @@ $offset 				 = $_GET["offset"];
 $select_artist_arr = array();
 $artist_count_arr  = array();
 
-$select_artist_query  	= 'SELECT artist,playcount,image FROM '.$dbConnection['database'].'.'.$dbConnection['table'];
+$select_artist_query  	= 'SELECT artist,playcount,image,url FROM '.$dbConnection['database'].'.'.$dbConnection['table'];
 	$select_artist_query .= ' ORDER BY playcount DESC LIMIT '.$offset.', '.$displayed;
 
 $count_query = 'SELECT COUNT(*) from '.$dbConnection['database'].'.'.$dbConnection['table'];
